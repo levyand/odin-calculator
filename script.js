@@ -22,6 +22,9 @@ document.querySelector('#equal-btn')
 document.querySelector('#clear-btn')
   .addEventListener('click', clear);
 
+document.querySelector('#del-btn')
+  .addEventListener('click', backspace);
+
 window.addEventListener('keydown', (e) => {
   const key = e.key;
 
@@ -32,6 +35,8 @@ window.addEventListener('keydown', (e) => {
   if (key === '=' || key === 'Enter') evaluate();
 
   if (key === 'Escape') clear();
+
+  if (key === 'Backspace') backspace();
 });
 
 function add(a, b) {
@@ -120,6 +125,17 @@ function clear() {
   arg1 = currentOperator = undefined;
   document.querySelector('.display .input').textContent = displayVal;
   document.querySelector('.display .equation').textContent = '';
+}
+
+function backspace() {
+  displayVal = displayVal.slice(0, -1);
+
+  if (!displayVal.includes('.') && displayVal.length > 3) {
+    const numberVal = parseValue(displayVal);
+    displayVal = formatValue(numberVal);
+  }
+
+  document.querySelector('.display .input').textContent = displayVal;
 }
 
 function parseValue(numberString) {
